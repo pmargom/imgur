@@ -13,7 +13,9 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: Routes.details,
-      builder: (_, state) => DetailsScreen(goRouterState: state),
+      builder: (_, state) => DetailsScreen(
+        extraData: state.extra as Map<String, dynamic>?,
+      ),
     ),
   ],
 );

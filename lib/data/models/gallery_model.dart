@@ -42,7 +42,7 @@ class GalleryModel {
       title: json["title"],
       description: json["description"],
       link: json["link"],
-      favorite: false,
+      favorite: json["favorite"] ?? false,
       images: json["images"] == null ? [] : GalleryImageModel.fromJsonList(json["images"]),
     );
   }
