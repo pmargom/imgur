@@ -13,7 +13,7 @@ It is an app that allows you to search galleroes by consuming the api https://ap
 
 If everything goes fine, you should see something like this:
 
- <img src="./screenshots/1.png" style="width:240px;" />  <img src="./screenshots/2.png" style="width:240px;" />  <img src="./screenshots/3.png" style="width:240px;" /> 
+ <img src="./1.png" style="width:240px;" />  <img src="./2.png" style="width:240px;" />  <img src="./3.png" style="width:240px;" /> 
 
 
 For help getting started with Flutter development, view the
