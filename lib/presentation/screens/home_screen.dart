@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imgur/domain/entitites/gallery_entity.dart';
@@ -16,22 +18,27 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late int _pageNum;
   late ScrollController _scrollController;
+  late GalleriesCubit _galleriesCubit;
 
   static final Logger _logger = Logger("Home Screen");
-  static const String _query = "cars";
+  late String _query;
+
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
+    _query = "";
     _pageNum = 1;
+    _galleriesCubit = BlocProvider.of<GalleriesCubit>(context);
     _scrollController = ScrollController();
     _setUpScrollEvents();
-    _loadData(_query, _pageNum);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -46,7 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _loadData(String query, int page) {
-    BlocProvider.of<GalleriesCubit>(context).getGalleries(query, page: page);
+    _galleriesCubit.getGalleries(query, page: page);
+  }
+
+  void _resetSearch() {
+    _galleriesCubit.reset();
   }
 
   @override
@@ -64,18 +75,49 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Column(
             children: [
+              _buildSearch(),
               Expanded(child: _buildConsumer()),
             ],
           ),
         ),
       );
 
+  Widget _buildSearch() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        decoration: const InputDecoration(
+          labelText: 'Search',
+          border: OutlineInputBorder(),
+          prefixIcon: Icon(Icons.search),
+        ),
+        onChanged: _onSearchChange,
+      ),
+    );
+  }
+
+  void _onSearchChange(String query) {
+    if (_debounce?.isActive ?? false) {
+      _debounce?.cancel();
+    }
+
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      _resetSearch();
+
+      if (query.isEmpty) {
+        return;
+      }
+      _logger.info("Searching for $query...");
+      _loadData(query, _pageNum);
+    });
+  }
+
   Widget _buildConsumer() {
     return BlocConsumer<GalleriesCubit, GalleriesState>(
       listener: (context, state) {},
       builder: (_, state) {
         if (state is GalleriesLoading && state.isFirstFetch) {
-          return const CircularProgressIndicator.adaptive();
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state is GalleriesError) {
