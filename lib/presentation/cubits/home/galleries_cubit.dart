@@ -12,6 +12,10 @@ class GalleriesCubit extends Cubit<GalleriesState> {
 
   GalleriesCubit(this._getGalleriesUsecase) : super(GalleriesInitial());
 
+  void reset() {
+    emit(GalleriesInitial());
+  }
+
   Future<void> getGalleries(String query, {String sort = "top", int page = 1}) async {
     if (state is GalleriesLoading) {
       return;
