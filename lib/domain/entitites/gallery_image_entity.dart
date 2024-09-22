@@ -28,6 +28,14 @@ class GalleryImageEntity {
         link: link ?? this.link,
       );
 
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "type": type,
+        "link": link,
+      };
+
   static GalleryImageEntity fromJson(json) {
     return GalleryImageEntity(
       id: json["id"],

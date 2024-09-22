@@ -45,5 +45,14 @@ class GalleryEntity {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "link": link,
+        "favorite": favorite,
+        "images": images.map((GalleryImageEntity galleryImageEntity) => galleryImageEntity.toJson()).toList(),
+      };
+
   static List<GalleryEntity> fromJsonList(List json) => List<GalleryEntity>.from(json.map((json) => GalleryEntity.fromJson(json)));
 }

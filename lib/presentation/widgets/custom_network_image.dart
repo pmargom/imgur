@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class CustomNetworkImage extends StatelessWidget {
   const CustomNetworkImage({
     super.key,
-    required this.firstImageUrl,
+    required this.imageUrl,
   });
 
-  final String firstImageUrl;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      firstImageUrl,
+      imageUrl,
       fit: BoxFit.cover,
       loadingBuilder: _loadingBuilder,
       errorBuilder: _errorBuilder,

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:imgur/core/config/routes.dart';
 import 'package:imgur/domain/entitites/gallery_entity.dart';
 import 'package:imgur/presentation/cubits/home/galleries_cubit.dart';
 import 'package:imgur/presentation/widgets/custom_network_image.dart';
@@ -101,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _debounce?.cancel();
     }
 
-    _debounce = Timer(const Duration(milliseconds: 300), () {
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
       _resetSearch();
 
       if (query.isEmpty) {
@@ -138,9 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
             return const Text("No data found");
           }
         }
-        return _buildGalleryList(galleries, isLoading);
 
-        // return const SizedBox();
+        return _buildGalleryList(galleries, isLoading);
       },
     );
   }
@@ -183,6 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onSelectedItem(GalleryEntity gallery) {
     _logger.info("Gallery with id: ${gallery.id} selected");
+
+    context.push(Routes.details, extra: gallery.toJson());
   }
 
   Widget _buildItemTitle(GalleryEntity galleryEntity) {
@@ -195,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10),
             width: double.maxFinite,
             height: 200,
-            child: CustomNetworkImage(firstImageUrl: firstImageUrl),
+            child: CustomNetworkImage(imageUrl: firstImageUrl),
           )
       ],
     );
