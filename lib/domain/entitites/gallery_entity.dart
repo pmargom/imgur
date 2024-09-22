@@ -8,7 +8,7 @@ class GalleryEntity {
   final bool? favorite;
   final List<GalleryImageEntity> images;
 
-  GalleryEntity({
+  const GalleryEntity({
     this.id,
     this.title,
     this.description,

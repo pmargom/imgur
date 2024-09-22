@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:imgur/data/models/gallery_image_model.dart';
 import 'package:imgur/domain/entitites/gallery_entity.dart';
 import 'package:imgur/domain/entitites/gallery_image_entity.dart';
 
-class GalleryModel {
+class GalleryModel extends Equatable {
   final String? id;
   final String? title;
   final String? description;
@@ -10,7 +11,7 @@ class GalleryModel {
   final bool? favorite;
   final List<GalleryImageModel> images;
 
-  GalleryModel({
+  const GalleryModel({
     this.id,
     this.title,
     this.description,
@@ -48,6 +49,9 @@ class GalleryModel {
   }
 
   static List<GalleryModel> fromJsonList(List json) => List<GalleryModel>.from(json.map((json) => GalleryModel.fromJson(json)));
+
+  @override
+  List<Object?> get props => [id, title, description, link, favorite, images];
 }
 
 extension GalleryModelExtension on GalleryModel {
