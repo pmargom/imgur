@@ -1,0 +1,19 @@
+
+    [
+        {
+            "id": "id 1",
+            "title": "title 1",
+            "description": null,
+            "link": "https://",
+            "favorite": false,
+            "images": [
+                {
+                "id": "image id 1",
+                "title": null,
+                "description": null,
+                "type": "video/mp4",
+                "link": "https://"
+                }
+            ]
+        }
+    ]
